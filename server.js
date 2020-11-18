@@ -1,10 +1,11 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
-const apiRoutes = require("./routes/apiRoutes");
+const dataRoutes = require("./routes");
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -20,8 +21,8 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false, }
 );
 
-// Use apiRoutes
-app.use("/api", apiRoutes);
+// Use dataRoutes for web & db API calls.
+app.use("/api", dataRoutes);
 
 // Send every request to the React app
 // Define any API routes before this runs
