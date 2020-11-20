@@ -1,9 +1,8 @@
-import dbRoutes from "./dbRoutes";
-import apiRoutes from "./apiRoutes";
+const router = require("express").Router();
+const dbRoutes = require("./dbRoutes");
+const apiRoutes = require("./apiRoutes");
 
-const dataRoutes = {
-  dbRoutes,
-  apiRoutes,
-};
+router.use("/db", dbRoutes);
+router.use("/web", apiRoutes);
 
-export default dataRoutes;
+module.exports =  router;
