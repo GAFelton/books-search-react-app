@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Jumbotron from "./components/Jumbotron";
-import Nav from "./components/Nav";
+import HeroSection from "./components/HeroSection";
+import Header from "./components/Header";
 import Search from "./pages/Search";
 
 
@@ -9,8 +9,8 @@ function App() {
 
   return (
     <div>
-      <Nav />
-      <Jumbotron />
+      <Header />
+      <HeroSection />
       <Search />
     </div>
   );
