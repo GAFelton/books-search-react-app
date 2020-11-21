@@ -3,16 +3,11 @@ const Schema = mongoose.Schema;
 
 const bookSchema = new Schema({
 
-  authors: [String],
-  description: {
+  bookId: {
     type: String,
-    default: ""
+    unique: true
   },
-  image: {
-    type: String,
-    default: ""
-  },
-  link: {
+  selfLink: {
     type: String,
     default: "",
     unique: true
@@ -20,6 +15,31 @@ const bookSchema = new Schema({
   title: {
     type: String,
     required: true
+  },
+  subtitle: {
+    type: String,
+    default: ""
+  },
+  authors: [String],
+  description: {
+    type: String,
+    default: ""
+  },
+  publisher: {
+    type: String,
+    default: ""
+  },
+  publishedDate: {
+    type: String,
+    default: ""
+  },
+  previewLink: {
+    type: String,
+    default: ""
+  },
+  image: {
+    type: String,
+    default: ""
   },
 });
 
