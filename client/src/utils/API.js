@@ -6,14 +6,19 @@ const API = axios.create({
   // headers: { "Content-Type": "application/json" },
 });
 
-// The getBooks method retrieves books from the server
-// It accepts a "query" or term to search the book api for
-const server = {
 
+const server = {
+  searchDB: (query) => API.get("/db/books", { params: { q: query } }),
+  get: (id) => API.get(`/db/book/${id}`),
+  post: (body) => API.get("/db/book", body),
+  update: (id, body) => API.put(`/db/book/${id}`, body),
+  delete: (id) => API.delete(`/db/book/${id}`),
 };
 
 const web = {
-  get: (query) => API.get("/web/books/", { params: { q: query } }),
+  // The getBooks method retrieves books from the server
+// It accepts a "query" or term to search the book api for
+  getBooks: (query) => API.get("/web/books/", { params: { q: query } }),
   getOne: (query) => API.get("/web/book/", { params: { selfLink: query } }),
 };
 
