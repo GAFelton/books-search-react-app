@@ -10,6 +10,23 @@ const dataRoutes = require("./routes");
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Whitelist for proxy port - DEV SERVER
+if (process.env.NODE_ENV === "development") {
+  app.use((req, res, next) => {
+    const whitelist = ["localhost:3001", "localhost:3000"];
+    const host = req.get("host");
+
+    whitelist.forEach((val) => {
+      if (host.indexOf(val) > -1) {
+        res.setHeader("Access-Control-Allow-Origin", host);
+      }
+    });
+
+    next();
+  });
+}
+
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
