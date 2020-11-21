@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { BookList, BookListItem } from "../components/BookList";
-import { Container, Row, Col } from "../components/Grid";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import Input from "../components/Input";
-import Button from "../components/Button";
 import API from "../utils/API";
 
 function Search() {
@@ -18,18 +17,18 @@ function Search() {
   const interpretData = (data) => {
     const output = [];
     data.map(book => {
-      const bookObj = {
-        id: book.id,
-        selfLink: book.selfLink,
-        title: book.volumeInfo.title,
-        subtitle: book.volumeInfo.subtitle,
-        authors: [book.volumeInfo.authors],
-        description: book.volumeInfo.description,
-        publisher: book.volumeInfo.publisher,
-        publishedDate: book.volumeInfo.publishedDate,
-        previewLink: book.volumeInfo.previewLink,
-        image: book.volumeInfo.imageLinks.thumbnail,
-      };
+      const bookObj = {};
+      bookObj.bookId = book.id,
+      bookObj.selfLink = book.selfLink,
+      bookObj.title = book.volumeInfo.title,
+      bookObj.subtitle = book.volumeInfo.subtitle,
+      bookObj.authors = [book.volumeInfo.authors],
+      bookObj.description = book.volumeInfo.description,
+      bookObj.publisher = book.volumeInfo.publisher,
+      bookObj.publishedDate = book.volumeInfo.publishedDate,
+      bookObj.previewLink = book.volumeInfo.previewLink,
+      bookObj.image = book.volumeInfo.imageLinks.thumbnail,
+      
       output.push(bookObj);
     })
     setBooks(output);
@@ -37,7 +36,7 @@ function Search() {
   const handleFormSubmit = event => {
     // When the form is submitted, prevent its default behavior, get books update the books state
     event.preventDefault();
-    API.web.get(bookSearch)
+    API.web.getBooks(bookSearch)
       .then(res => interpretData(res.data.items))
       .catch(err => console.log(err));
   };
@@ -80,11 +79,12 @@ function Search() {
                 {books.map(book => {
                   return (
                     <BookListItem
-                      key={book.title}
+                      key={book.bookId}
                       title={book.title}
-                      href={book.link}
-                      ingredients={book.ingredients}
-                      thumbnail={book.thumbnail}
+                      authors={book.authors}
+                      link={book.previewLink}
+                      description={book.description}
+                      image={book.image}
                     />
                   );
                 })}
