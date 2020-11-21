@@ -1,13 +1,17 @@
 import React from "react";
-import { Navbar } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import "./style.css";
 
 function Header() {
   return (
     <Navbar className="navbar-dark bg-dark">
-      <a className="navbar-brand" href="/">
+      <Navbar.Brand href="/">
         React Books
-      </a>
+      </Navbar.Brand>
+      <Nav className="mr-auto">
+      <Nav.Link href="/saved">Saved Books</Nav.Link>
+      <Nav.Link href="/search">Search</Nav.Link>
+    </Nav>
     </Navbar>
   );
 }
