@@ -10,8 +10,8 @@ const API = axios.create({
 const server = {
   searchDB: (query) => API.get("/db/books", { params: { q: query } }),
   get: (id) => API.get(`/db/book/${id}`),
-  post: (body) => API.get("/db/book", body),
-  update: (id, body) => API.put(`/db/book/${id}`, body),
+  post: (data) => API.post("/db/book", data),
+  update: (id, data) => API.put(`/db/book/${id}`, data),
   delete: (id) => API.delete(`/db/book/${id}`),
 };
 
