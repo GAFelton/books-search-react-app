@@ -18,17 +18,40 @@ function Search() {
     const output = [];
     data.map(book => {
       const bookObj = {};
-      bookObj.bookId = book.id,
-      bookObj.selfLink = book.selfLink,
-      bookObj.title = book.volumeInfo.title,
-      bookObj.subtitle = book.volumeInfo.subtitle,
-      bookObj.authors = [book.volumeInfo.authors],
-      bookObj.description = book.volumeInfo.description,
-      bookObj.publisher = book.volumeInfo.publisher,
-      bookObj.publishedDate = book.volumeInfo.publishedDate,
-      bookObj.previewLink = book.volumeInfo.previewLink,
-      bookObj.image = book.volumeInfo.imageLinks.thumbnail,
-      
+
+      if (book.id) {
+        bookObj.bookId = book.id;
+      };
+      if (book.selfLink) {
+        bookObj.selfLink = book.selfLink;
+      };
+      if (book.volumeInfo.title) {
+        bookObj.title = book.volumeInfo.title;
+      };
+      if (book.volumeInfo.subtitle) {
+        bookObj.subtitle = book.volumeInfo.subtitle;
+      };
+      if (book.volumeInfo.authors) {
+        bookObj.authors = book.volumeInfo.authors;
+      };
+      if (book.volumeInfo.description) {
+        bookObj.description = book.volumeInfo.description;
+      };
+      if (book.volumeInfo.publisher) {
+        bookObj.publisher = book.volumeInfo.publisher;
+      };
+      if (book.volumeInfo.publishedDate) {
+        bookObj.publishedDate = book.volumeInfo.publishedDate;
+      };
+      if (book.volumeInfo.previewLink) {
+        bookObj.previewLink = book.volumeInfo.previewLink;
+      };
+      if (book.volumeInfo.imageLinks) {
+        bookObj.image = book.volumeInfo.imageLinks.thumbnail;
+      };
+      bookObj.read = false;
+      bookObj.key = `${book.etag}+${book.id}`
+
       output.push(bookObj);
     })
     setBooks(output);
@@ -36,19 +59,38 @@ function Search() {
   const handleFormSubmit = event => {
     // When the form is submitted, prevent its default behavior, get books update the books state
     event.preventDefault();
-    API.web.getBooks(bookSearch)
-      .then(res => interpretData(res.data.items))
-      .catch(err => console.log(err));
+    if (bookSearch.length > 0) {
+      API.web.getBooks(bookSearch)
+        .then((res) => {
+          setBooks([]);
+          interpretData(res.data.items);
+          setBookSearch("");
+        })
+        .catch(err => console.log(err));
+    };
   };
+
+  function findBookInState(id) {
+    return books.filter(item => {
+      return item.key === id;
+    });
+  };
+
+
+  function handleBookSave(key) {
+    const bookToSave = findBookInState(key);
+    API.server.post(bookToSave[0]);
+
+  }
 
   return (
     <Container>
       <Row>
-        <Col size="md-12">
+        <Col md={12}>
           <form>
             <Container>
               <Row>
-                <Col size="xs-9 sm-10">
+                <Col xs={9} sm={10}>
                   <Input
                     name="BookSearch"
                     value={bookSearch}
@@ -56,7 +98,7 @@ function Search() {
                     placeholder="Search For a Book"
                   />
                 </Col>
-                <Col size="xs-3 sm-2">
+                <Col xs={3} sm={2}>
                   <Button
                     onClick={handleFormSubmit}
                     type="success"
@@ -71,7 +113,7 @@ function Search() {
         </Col>
       </Row>
       <Row>
-        <Col size="xs-12">
+        <Col xs={12}>
           {!books.length ? (
             <h1 className="text-center">No Books to Display</h1>
           ) : (
@@ -79,12 +121,13 @@ function Search() {
                 {books.map(book => {
                   return (
                     <BookListItem
-                      key={book.bookId}
+                      key={book.key}
                       title={book.title}
                       authors={book.authors}
                       link={book.previewLink}
                       description={book.description}
                       image={book.image}
+                      checkbox={() => handleBookSave(book.key)}
                     />
                   );
                 })}
@@ -94,6 +137,6 @@ function Search() {
       </Row>
     </Container>
   )
-}
+};
 
 export default Search;
