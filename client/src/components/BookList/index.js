@@ -1,12 +1,13 @@
 import React from "react";
 import Thumbnail from "../Thumbnail";
 import { Container, Row, Col } from "../Grid";
+import { ListGroup } from "react-bootstrap";
 
 // Exporting both BookList and BookListItem from this file
 
 // BookList renders a bootstrap list item
 export function BookList({ children }) {
-  return <ul className="list-group">{children}</ul>;
+  return <ListGroup>{children}</ListGroup>;
 }
 
 // BookListItem renders a bootstrap list item containing data from the book api call
@@ -18,7 +19,7 @@ export function BookListItem({
   title
 }) {
   return (
-    <li className="list-group-item">
+    <ListGroup.Item>
       <Container>
         <Row>
           <Col size="xs-4 sm-2">
@@ -34,6 +35,6 @@ export function BookListItem({
           </Col>
         </Row>
       </Container>
-    </li>
+    </ListGroup.Item>
   );
 }

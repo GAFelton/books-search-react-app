@@ -1,14 +1,15 @@
 import React from "react";
+import { Navbar } from "react-bootstrap";
 import "./style.css";
 
-function Nav() {
+function Header() {
   return (
-    <nav className="navbar navbar-dark bg-dark">
+    <Navbar className="navbar-dark bg-dark">
       <a className="navbar-brand" href="/">
         React Books
       </a>
-    </nav>
+    </Navbar>
   );
 }
 
-export default Nav;
+export default Header;

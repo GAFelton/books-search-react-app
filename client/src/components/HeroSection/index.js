@@ -1,15 +1,16 @@
 import React from "react";
 import "./style.css";
+import { Jumbotron } from "react-bootstrap";
 
-function Jumbotron() {
+function HeroSection() {
   return (
-    <div className="jumbotron text-center">
+    <Jumbotron className="text-center">
       <h1>React Books</h1>
       <a target="_blank" rel="noopener noreferrer" href="https://developers.google.com/books">
         Powered by Google Books
       </a>
-    </div>
+    </Jumbotron>
   );
 }
 
-export default Jumbotron;
+export default HeroSection;
