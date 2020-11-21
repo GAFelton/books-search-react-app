@@ -75,6 +75,9 @@ typings/
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
+# React build folder
+build/
+
 # Next.js build output
 .next
 
