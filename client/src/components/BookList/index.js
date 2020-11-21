@@ -22,9 +22,13 @@ export function BookListItem({
     <ListGroup.Item>
       <Container>
         <Row>
-        <Col xs={1}>
-          <Form.Check aria-label={`Save option: ${title}`} onClick={checkbox} />
-        </Col>
+          {checkbox ? (
+            <Col xs={1}>
+            <Form.Check aria-label={`Save option: ${title}`} onClick={checkbox} />
+            </Col>
+          ) : (
+            " "
+          )}
           <Col xs={4} sm={2}>
             <Thumbnail src={image || "https://placehold.it/300x300"} />
           </Col>
