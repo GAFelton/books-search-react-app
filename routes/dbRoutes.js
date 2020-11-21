@@ -16,7 +16,7 @@ router.get("/books", (req, res) => {
 router.get("/book/:id", (req, res) => {
   db.Book
     .findById(req.params.id)
-    .then(dbModel => res.json(dbModel))
+    .then((book) => res.json(book))
     .catch(err => res.status(422).json(err));
 }),
 
@@ -24,7 +24,7 @@ router.get("/book/:id", (req, res) => {
 router.post("/book", (req, res) => {
   db.Book
     .create(req.body)
-    .then(dbModel => res.json(dbModel))
+    .then((book) => res.json(book))
     .catch(err => res.status(422).json(err));
 });
 
