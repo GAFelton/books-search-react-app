@@ -5,12 +5,11 @@ const bookSchema = new Schema({
 
   bookId: {
     type: String,
-    unique: true
+    default: ""
   },
   selfLink: {
     type: String,
     default: "",
-    unique: true
   },
   title: {
     type: String,
@@ -20,7 +19,10 @@ const bookSchema = new Schema({
     type: String,
     default: ""
   },
-  authors: [String],
+  authors: {
+    type: Array,
+    default: []
+  },
   description: {
     type: String,
     default: ""
@@ -40,6 +42,14 @@ const bookSchema = new Schema({
   image: {
     type: String,
     default: ""
+  },
+  read: {
+    type: Boolean,
+    default: false
+  },
+  key: {
+    type: String,
+    unique: true
   },
 });
 
