@@ -128,6 +128,7 @@ function Search() {
                       description={book.description}
                       image={book.image}
                       checkbox={() => handleBookSave(book.key)}
+                      checkText="Save"
                     />
                   );
                 })}
