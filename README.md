@@ -7,7 +7,7 @@ A React-based Google Books Search App, demonstrating full MERN-stack capabilitie
 
 [Link to the Deployed Site](https://evening-basin-07741.herokuapp.com/)     ||    [Link to the GitHub Repo](https://github.com/GAFelton/books-search-react-app)
 
-![Saved Screenshot](.\images\saved-screenshot.png)
+![Saved Screenshot](./images/saved-screenshot.png)
 
   ## Table of Contents
 
@@ -44,7 +44,7 @@ A React-based Google Books Search App, demonstrating full MERN-stack capabilitie
 
 Use the search page to find and add books to your saved collection. On the saved page, click on each book to learn more, mark them as read, or remove them from your collection entirely.
 
-![search screenshot](.\images\search-screenshot.png)
+![search screenshot](./images/search-screenshot.png)
 
   ## License
 
