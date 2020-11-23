@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Col, Container, ListGroup, Row } from "react-bootstrap";
+import { Col, Container, Form, ListGroup, Row } from "react-bootstrap";
 import { BookListItem } from "../components/BookList";
 import DeleteBtn from "../components/DeleteBtn";
 import API from "../utils/API";
 
 function Saved() {
   const [books, setBooks] = useState([]);
-  const [displayBook, setDisplayBook] = useState({});
+  const [displayBook, setDisplayBook] = useState();
 
   useEffect(async () => {
-    await loadBooks();
+    const response = await loadBooks();
+    await setDisplayBook(response[0]);
   }, []);
 
   async function loadBooks() {
     try {
       const response = await API.server.searchDB();
       await setBooks(response.data);
-      await setDisplayBook(books[0]);
+      return response.data;
     } catch (error) {
       console.log(error);
     }
@@ -35,14 +36,25 @@ function Saved() {
     });
   };
 
+  function handleBookRead(key) {
+    const bookToRead = findBookInState(key)[0];
+    if (!bookToRead.read) {
+      bookToRead.read = true;
+    } else {
+      bookToRead.read = false;
+    }
+    API.server.update(bookToRead._id, bookToRead);
+    loadBooks();
+  }
+
   function handleBookLinkClick(key) {
-    const bookToDisplay = findBookInState(key);
+    const bookToDisplay = findBookInState(key)[0];
     setDisplayBook(bookToDisplay);
   }
 
   return (
     <>
-      <Container>
+      <Container className="savedPage">
         <Row>
           <Col xs={9} className="bookDisplayArea">
             {displayBook ? (
@@ -55,6 +67,12 @@ function Saved() {
                   link={displayBook.previewLink}
                   description={displayBook.description}
                   image={displayBook.image}
+                  checkbox={() => handleBookRead(displayBook.key)}
+                  read={displayBook.read}
+                  checkText="Read"
+                  subtitle={displayBook.subtitle}
+                  publisher={displayBook.publisher}
+                  publishedDate={displayBook.publishedDate}
                 />
               </div>
             ) : (
@@ -65,15 +83,30 @@ function Saved() {
             <h2>Saved Books:</h2>
             {books.length ? (
               <ListGroup>
+                <ListGroup.Item key="description">
+                <Row noGutters={true} className="d-flex justify-content-between" >
+                  <p>Read:</p>
+                  <p>Delete:</p>
+                </Row>
+                </ListGroup.Item>
                 {books.map(book => {
                   return (
                     <ListGroup.Item key={book._id}>
-                      <a onClick={() => handleBookLinkClick(book.key)}>
-                        <strong>
-                          {book.title} by {book.authors}
-                        </strong>
-                      </a>
-                      <DeleteBtn onClick={() => deleteBook(book._id)} />
+                      <Row noGutters={true} >
+                        <Col md={2}>
+                        <Form>
+                          <Form.Check checked={!!book.read} aria-label="Book Has Been Read" onChange={() => handleBookRead(book.key)} />
+                          </Form>
+                        </Col>
+                        <Col md={10}>
+                          <a onClick={() => handleBookLinkClick(book.key)}>
+                            <strong>
+                              {book.title} by {book.authors}
+                            </strong>
+                          </a>
+                          <DeleteBtn onClick={() => deleteBook(book._id)} />
+                        </Col>
+                      </Row>
                     </ListGroup.Item>
                   );
                 })}
